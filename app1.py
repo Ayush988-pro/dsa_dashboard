@@ -109,7 +109,7 @@ def calculate_score(text):
     project_count = sum(text.count(word) for word in project_keywords)
     project_score = min(project_count * 1.2, 10)
 
-    # Base Score (important)
+    # Base Score
     base_score = 2.5
 
     # Final Score
@@ -144,10 +144,13 @@ if file:
 
         role, score, skills = calculate_score(text)
 
+        # 🔥 ADJUSTED SCORE (DEDUCT 1)
+        adjusted_score = max(score - 1, 0)
+
         # ATS SCORE
         st.subheader("🎯 ATS Score")
-        st.metric("Score", f"{score}/10")
-        st.progress(score / 10)
+        st.metric("Score", f"{adjusted_score}/10")
+        st.progress(adjusted_score / 10)
 
         # ROLE
         st.subheader("💼 Best Role Match")
@@ -174,9 +177,7 @@ if file:
             st.markdown(f"[🔗 LinkedIn Jobs]({linkedin})")
             st.markdown(f"[🔗 Naukri Jobs]({naukri})")
 
-        # ---------------------------
-        # MISSING SKILLS (FIXED ERROR)
-        # ---------------------------
+        # MISSING SKILLS
         st.subheader("📉 Missing Skills")
 
         if role and role in IDEAL_RESUMES:
